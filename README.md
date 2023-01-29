@@ -28,7 +28,7 @@ source("./R/PSTVB_Packages.R")
 ```
 The [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can be installed by the following command:
 ```
- install.packages("./package/stBase_1.0.zip", repos = NULL, type = "win.binary")
+ install.packages("./package/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
 ## An example for the proposed hierarchical dynamic calibration model
