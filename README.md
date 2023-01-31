@@ -32,6 +32,9 @@ The [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can 
  install.packages("./package/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
+## Data
+![ADCM](./ADCMs/figure/Fig1_a.png)
+
 
 
 ## An example for the proposed addictive dynamic correction model
