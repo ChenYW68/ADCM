@@ -34,12 +34,15 @@ The [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can 
 
 ## Data
 Maps of the BTH region under different gridding systems with the locations of $68$ monitoring stations marked by the red dots. (a) Map with the centroids of $5{, }587$ $9$-km CMAQ grids (gray dots). (b) Map with the centroids of $2{, }141$ $15$-km NAQPMS grids (gray dots).
-![ADCM](./ADCMs/figure/Fig1_a.png) ![ADCM](./ADCMs/figure/Fig1_b.png)
+########![ADCM](./ADCMs/figure/Fig1_a.png) ![ADCM](./ADCMs/figure/Fig1_b.png)
 
 ## An example for the proposed addictive dynamic correction model
 
 ################################ An example for fitting ADCM ############################
 
+### Estimated nonlinear functions
+Estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI). Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
+![ADCM](./ADCMs/figure/Fig10.png)
 
 ### Space-time calibration
 
