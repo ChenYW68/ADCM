@@ -33,7 +33,7 @@ The [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can 
 ```
 
 ## Data
-![ADCM](./ADCMs/figure/Fig1_a.png)
+![ADCM](./ADCMs/figure/Fig1_a.png, width = 2)
 
 
 
