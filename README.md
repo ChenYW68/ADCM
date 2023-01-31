@@ -3,6 +3,7 @@
 Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerical Model Outputs” by Y. Chen, X. Chang, F. Luo, and H. Huang. 
 
 ## Data
+
 Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations. The datasets contain two seasons of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are 3 .RData files. 
@@ -31,16 +32,17 @@ The [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can 
  install.packages("./package/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
-![ADCM](./ADCMs/figure/FigS3.png)
+
 
 ## An example for the proposed addictive dynamic correction model
-```
+
 ################################ An example for fitting ADCM ############################
 
+
 ### Space-time calibration
+
 Based on the ADCM, we perform a space-time calibration of the CMAQ system outputs for the entire BTH region using the proposed addictive dynamic correction model (ADCM). The following figure displays CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The
 solid squares represent the average PM2.5 levels at the monitoring stations, i.e.,
+![ADCM](./ADCMs/figure/Fig11.png)
 
-
-![](./ADCMs/figure/Fig11.png)
 In each of the 13 cities, the average PM2.5 concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before-calibration CMAQ outputs do not match well with most of the pollution data. After calibration, the transition from the cities to their surrounding areas becomes much smoother.
