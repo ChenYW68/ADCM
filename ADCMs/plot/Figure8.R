@@ -1,0 +1,123 @@
+rm(list=ls())
+source("./code/LoadPackages/PSTVB_Packages.R")
+data("SiteData", package = "ADCM")
+data("China_BTH_GeoMap", package = "ADCM")
+Map_BTH <- fortify(China.province.map)
+#################################################################################
+#################################################################################
+Database <- TRUE
+if(isTRUE(Database)){
+  DSN_01 <- odbcConnect("DSN_01", uid = "myname", pwd = "mypwd", believeNRows = FALSE, case = "toupper")
+}
+#################################################################################
+#################################################################################
+n <- 100;
+start <- c(1, 200)
+iter <- 2
+#################################################################################
+#################################################################################
+if(isTRUE(Database)){
+  
+  simu <- paste0("Sim_", n)
+  Simulation_wts <- paste0(simu, "_wts")
+  Result <- sqlQuery(DSN_01, paste0("select * from ", 
+                                    Simulation_wts,
+                                    " where ITER = ", iter), 
+  errors = F)
+}else{
+  load(paste0("./data/Simulation/Sim_ADCM_wts_", n, "_", start[1], "_", start[2], ".RData"))
+  Result <- Simulation_wts[Simulation_wts$ITER == iter, ]
+  
+  colnames(Result) <- toupper(colnames(Result))
+}
+setDT(Result)
+
+
+setnames(Result, "METHOD", "Method")
+Result <- Result %>%
+  plyr::ddply(.(Method, TIME, LON, LAT, SIMU) #, DAY, DATE_TIME
+              , plyr::summarize
+              , W_TS = mean(W_TS , na.rm=TRUE)
+              , .progress = "text"
+  ) %>% setDT()
+
+temp1 <- Result[Method==1, c("Method", "TIME", "LON", "LAT", "W_TS", "SIMU")]
+temp1$Method <- 1
+temp2 <- Result[Method==1& SIMU == "Train", c("Method", "TIME", "LON", "LAT", "W_TS", "SIMU")]
+temp2$Method <- 2
+temp3 <- Result[Method==2, c("Method", "TIME", "LON", "LAT", "W_TS", "SIMU")]
+temp3$Method <- 3
+
+n <- 2000; 
+if(isTRUE(Database)){
+  simu <- paste0("Sim_", n)
+  Simulation_wts <- paste0(simu, "_wts")
+  Result <- sqlQuery(DSN_01, paste0("select * from ", 
+                                    Simulation_wts,
+                                    " where ITER =", iter), 
+                     errors = F)
+}else{
+  load(paste0("./data/Simulation/Sim_ADCM_wts_", n, "_", start[1], "_", start[2], ".RData"))
+  Result <- Simulation_wts[Simulation_wts$ITER == iter, ]
+  
+  colnames(Result) <- toupper(colnames(Result))
+}
+setDT(Result)
+setnames(Result, "METHOD", "Method")
+Result <- Result %>%
+  plyr::ddply(.(Method, TIME, LON, LAT, SIMU) #, DAY, DATE_TIME
+              , plyr::summarize
+              , W_TS = mean(W_TS , na.rm=TRUE)
+              , .progress = "text"
+  ) %>% setDT()
+# temp1$Method <- 1
+temp4 <- Result[Method==1& SIMU == "Train", c("Method", "TIME", "LON", "LAT", "W_TS", "SIMU")]
+temp4$Method <- 4
+temp5 <- Result[Method==2, c("Method", "TIME", "LON", "LAT", "W_TS", "SIMU")]
+temp5$Method <- 5
+
+da <- setDF(rbind(temp1, temp2, temp3, temp4, temp5))
+da$time.label <- paste0("time = ", da$TIME)
+setnames(da, "time.label", "time_label")
+tt <- 26
+# library(jcolors)
+color.count <- nrow(unique(da[, c("LON", "LAT")]))
+m <- c(floor(min(da[, "W_TS"])), ceil(max(da[, "W_TS"])))
+
+
+p <- plot.sim(da[(between(da$TIME, tt, tt + 5)), ],
+               var = "W_TS",
+               size_point = c(2.0, 0.8), col_point = "blue",
+               size = 1.5, font.size = c(20, 18), pch = 20,
+               GeoMap = Map_BTH, Geo_Color = 'gray80', 
+               color.count = color.count, m = m)
+ggsave(plot = p, file = paste0("./figure/Fig8.pdf"),
+       width = 14, height = 14)
+
+p1 <- plot.sim(da[(between(da$TIME, tt, tt + 5))&(da$Method == 1), ],
+               var = "W_TS",
+               size_point = c(2.0, 0.8), col_point = "blue",
+               size = 1.5, font.size = c(20, 18), pch = 20,
+               GeoMap = Map_BTH, Geo_Color = 'gray80',
+               color.count = color.count, m = m)
+ggsave(plot = p1, file = paste0("./figure/Fig8_a.pdf"),
+       width = 14, height = 3.0)
+# # 
+p2 <- plot.sim(da[(between(da$TIME, tt, tt + 5))&(da$Method %in% c(2, 3)), ],
+               var = "W_TS",
+               size_point = c(2.0, 0.8), col_point = "blue",
+               size = 1.5, font.size = c(20, 18), pch = 20,
+               GeoMap = Map_BTH, Geo_Color = 'gray80',
+               color.count = color.count, m = m)
+ggsave(plot = p2, file = paste0("./figure/Fig8_b.pdf"),
+       width = 14, height = 5.5)
+# # 
+p3 <- plot.sim(da[(between(da$TIME, tt, tt + 5))&(da$Method %in% c(4, 5)), ],
+              var = "W_TS",
+              size_point = c(2.0, 0.8), col_point = "blue",
+              size = 1.5, font.size = c(20, 17), pch = 20,
+              legend = T,
+              GeoMap = Map_BTH, Geo_Color = 'gray80',
+              color.count = color.count, m = m)
+ggsave(plot = p3, file = paste0("./figure/Fig8_c.pdf"),
+       width = 14, height = 6)

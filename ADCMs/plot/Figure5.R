@@ -1,0 +1,71 @@
+rm(list=ls())
+source("./code/LoadPackages/PSTVB_Packages.R")
+data("SiteData", package = "ADCM")
+data("China_BTH_GeoMap", package = "ADCM")
+
+Map_BTH <- fortify(China.province.map)
+Boundary <- as.data.frame(t(bbox(China.province.map)))
+names(Boundary) <- c("LON", "LAT")
+
+R <- 2
+pch <- c("+", "*", ".", "+")
+col <- c("red", paste0("gray", round(seq(10, 80,, R))))
+# par(mfrow = c(1, 1))
+model.Grid = makeGrids(Boundary, R, 15, 3.5) #12, 1.5) 15
+
+grid <- CreateHmatrix(grid_coords = model.Grid, 
+                              Geo_Map_Coord = China.province.map,
+                              method = c("Wendland"), 
+                              Site = Site, 
+                              factor = 1, 
+                              cs = 0.21, 
+                              Knots.clip.ratio = .10)$Grid.infor
+
+
+
+
+size = c(18, 16, 10)
+# load("./data/GeoMap.RData")
+p <- ggplot() + coord_equal()+ 
+  geom_polygon(data = Map_BTH,
+               aes(x = long,y = lat, group = group),
+               colour = 'gray25', size = 0.5,
+               fill = NA)+
+  scale_x_continuous(limits=c(112.5, 120.5),
+                     breaks = seq(112.5, 120.5, 2), 
+                     labels = paste0(seq(112.5, 120.5, 2), "° E")) +
+  scale_y_continuous(limits = c(35.5, 43),
+                     breaks = seq(35.5, 43, 1.5),
+                     labels = paste0(seq(35.5, 43, 1.5), "° N"))+
+  geom_text(aes(x = 117.8, y = 36.0
+                , label =  paste0(" + : coarse")),
+            color = "black", size = 8) +
+  geom_text(aes(x = 119.5, y = 36.0
+                , label =  paste0(" * : fine")),
+            color = "black", size = 8) +
+  # geom_text(aes(x = 112.5, y = 43.0
+  #               , label =  "(b)"),
+  #           # family = c("sans"),
+  #           # fontface = 'bold',
+  #           color = "black", size = 8) +
+  theme_bw() + 
+  labs(x =  "Longitude", y = "Latitude") +
+  theme(  #axis.ticks.y=element_blank()
+          axis.ticks = element_line(size = 1, colour = "black")
+          , axis.text = element_text(size = size[2], colour = "black")#, face = "bold"
+          , axis.title= element_text(size = size[1], colour = "black")
+          , legend.title = element_blank()
+          , legend.position = "none"
+          , panel.grid.major = element_blank()
+          , panel.grid.minor = element_blank()
+  )
+pch <- c("+", "*", "*", "+")
+for(g in 1:length(grid$level)){
+  p <- p + geom_point(data = grid$level[[g]][["latCoords"]], aes(x = LON, y = LAT)
+             , pch = pch[g]
+             , col = "black", size = 5)
+}
+###############################################################################
+ggsave(plot = p, height = 8, width = 10,
+       file = './figure/Fig5.pdf')
+###############################################################################

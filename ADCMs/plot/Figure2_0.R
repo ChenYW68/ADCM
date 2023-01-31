@@ -1,0 +1,88 @@
+rm(list=ls())
+source("./code/LoadPackages/PSTVB_Packages.R")
+data("SiteData", package = "ADCM")
+{
+  MODE_BASE_TABLE <- obs_PM25_2015w  %>% setorderv(c("CITY", "ID","DATE_TIME"))
+  setDF(MODE_BASE_TABLE)
+  ##################################################################
+  ###################################################################
+  #                           1. Data loading
+  ###################################################################
+  
+  setDF(MODE_BASE_TABLE)
+  DATE_TIME <- unique(MODE_BASE_TABLE$DATE_TIME) %>% sort()
+  Nt <- length(DATE_TIME)
+  date.time <- data.frame(time.index = 1:Nt,
+                          time.scale = seq(0, 1, , Nt),
+                          DATE_TIME = DATE_TIME)
+  MODE_BASE_TABLE <- MODE_BASE_TABLE  %>% left_join(date.time,  by = c("DATE_TIME"))
+  MODE_BASE_TABLE[, c("REAL_PM25")] <- sqrt(MODE_BASE_TABLE[,  c("REAL_PM25")])
+  MODE_BASE_TABLE[, c("sim50_CMAQ_PM25")] <- sqrt(MODE_BASE_TABLE[,  c("sim50_CMAQ_PM25")])
+  
+  Covariate = c("sim50_CMAQ_PM25" 
+                # , "time.index"
+                # , "time.scale"
+                , "sim_TEMP"
+                , "sim_SPRESS"
+                , "sim_WIND_X"
+                , "sim_WIND_Y"
+                # , "LON_X"
+                # , "LAT_Y"
+  );
+  
+  
+  setDF(MODE_BASE_TABLE)
+  Cov.Index <- which(base::colnames(MODE_BASE_TABLE) %in% Covariate)
+  if(length(Cov.Index) > 1){
+    mean_covariates <- apply(MODE_BASE_TABLE[, Cov.Index], 2, mean)
+    sd_covariates <- apply(MODE_BASE_TABLE[, Cov.Index], 2, sd)
+    MODE_BASE_TABLE[, Cov.Index] <- scale(MODE_BASE_TABLE[, Cov.Index],
+                                          center = mean_covariates,
+                                          scale = sd_covariates)
+  }
+}
+region <- sort(as.character(unique(MODE_BASE_TABLE$CITY)))
+region_num <- 1:length(region)
+
+
+
+bs <- "cc"
+t0 <- Sys.time()
+k <- 5
+
+Fit <- mgcv::gam(REAL_PM25 ~ sim50_CMAQ_PM25 + 
+                      # s(LON_X, LAT_Y, time.index, k = 200, bs = "tp") +
+                      s(time.index, k = k, bs = bs, m = 2) +
+                      s(sim_TEMP, k = k, bs = bs, m = 2) +
+                      s(sim_SPRESS, k = k, bs = bs, m = 2) +
+                      s(sim_WIND_X, k = k, bs = bs, m = 2) +
+                      s(sim_WIND_Y, k = k, bs = bs, m = 2),
+                    drop.intercept = F,
+                    data = MODE_BASE_TABLE)
+summary(Fit)
+value.upper <- 3
+smooth.num <- length(Fit$smooth) + 1
+if(smooth.num > 0){
+  nr <- floor(sqrt(smooth.num + 1))
+  for(i in 0:2){
+    nc <- nr + i
+    if(nr*nc >= smooth.num) break;
+  }
+  par(mfrow = c(nr, nc))
+  op <- par(mar = c(4, 4, 2, 1) + 0.1)
+  par(cex = 1)
+  par(mgp = c(2, 1, 0))
+  if(smooth.num >= 1){
+    plot(Fit, residuals = F, select = 1, 
+         ylim = c(-value.upper, value.upper), lwd = 4, se = F);
+    for (sm in c(2:smooth.num)) {
+      plot(Fit, residuals = F, select = sm, 
+           ylim = c(-value.upper, value.upper), lwd = 4, se = F);#title("Fitting")
+    }
+  }
+}
+
+
+MODE_BASE_TABLE$residuals <- MODE_BASE_TABLE$REAL_PM25 - Fit$fitted.values^2 
+
+

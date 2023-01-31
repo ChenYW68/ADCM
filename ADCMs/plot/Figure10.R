@@ -1,0 +1,290 @@
+source("./code/LoadPackages/PSTVB_Packages.R")
+###################################################################
+load("./code/2_Calibration/Fit.RData")
+Fit0 <- Fit
+fit <- Fit$addtive.Fit$mean.ensemble.fit[[1]]$Fit
+pred <- predict(fit, newdata = Fit0$addtive.fit.Data,
+                type = "terms", se.fit = F)
+M <- 100
+
+
+
+
+Con.Simu.Pred <- array(0, dim = c(Fit0$data$Nt*Fit0$data$n, 
+                                  ncol(pred) - 1,M), 
+                       dimnames = list(1:(Fit0$data$Nt*Fit0$data$n),
+                                       colnames(pred)[2: ncol(pred)],
+                                       paste0("Cond.Sim.", 1:M)))
+for(m in 1:M){
+  load(paste0("./data/Con_Simu/CS_Fit_ALL", "_", m, ".RData"))
+  func.esti  <- mgcv::predict.gam(Fit, newdata = Fit0$addtive.fit.Data,
+                                  type = "terms", se.fit = F)
+  for(p in 1:(ncol(pred) - 1)){
+    Con.Simu.Pred[, p, m] <- func.esti[, p + 1]
+  }
+  cat("m = ", m, "\n")
+}
+###############################time###############################
+data.time <- data.frame(time = Fit0$addtive.fit.Data$time.index)
+for(m in 1:M){data.time  <- cbind(data.time, Con.Simu.Pred[, 1, m])}
+Covariate.Construct <- unique(data.time)
+##------------------- g(t)-----
+g0 <- unique(data.frame(variate = 1:Fit0$data$Nt, 
+                        g0 = 2*pred[, 2] - data.time[, -1]))
+
+yHat <- apply(g0[, -1], 1, mean)
+pred.sd <- apply(g0[, -1], 1, sd)
+da.plot <- data.frame(variate = unique(Fit0$addtive.fit.Data$time.index)*
+                        Fit0$data$scaled_variable[1, 3] + 
+                        Fit0$data$scaled_variable[1, 2],
+                      standard.variate = unique(Fit0$addtive.fit.Data$time.index), 
+                      sd = pred.sd,
+                      func = yHat)
+
+da.plot$Flag = "Time"
+da.plot$Var <- 1
+
+# plot(da.plot$variate, da.plot$func, type = "l", ylim = c(-5, 5))
+# lines(da.plot$variate, da.plot$func + 1.96*da.plot$sd)
+# lines(da.plot$variate, da.plot$func - 1.96*da.plot$sd)
+
+
+
+#------------weather variables ------
+da.var <- da.plot
+Nc <- 3
+###############################RHUID###############################
+estimate <- 2*pred[, Nc] - Con.Simu.Pred[, Nc - 1,]
+da.plot <- data.frame(variate = Fit0$addtive.fit.Data$sim_TEMP*
+                        Fit0$data$scaled_variable[Nc - 1, 3] + 
+                        Fit0$data$scaled_variable[Nc - 1, 2],
+                      standard.variate = Fit0$addtive.fit.Data$sim_TEMP, 
+                      sd = apply(estimate, c(1), sd),
+                      func = apply(estimate, c(1), mean)) %>% setorderv("variate")
+m <- c(min(da.plot$func - 1.96*da.plot$sd), 
+       max(da.plot$func + 1.96*da.plot$sd))
+# plot(da.plot$variate, da.plot$func, type = "l", ylim = m)
+# lines(da.plot$variate, da.plot$func + 1.96*da.plot$sd)
+# lines(da.plot$variate, da.plot$func - 1.96*da.plot$sd)
+da.plot$Flag = "Surface temperature"
+da.plot$Var <- 2
+da.var <- rbind(da.var, da.plot)
+###############################WIND_X###############################
+estimate <- 2*pred[, Nc + 1] - Con.Simu.Pred[, Nc,]
+da.plot <- data.frame(variate = Fit0$addtive.fit.Data$sim_SPRESS*
+                        Fit0$data$scaled_variable[Nc, 3] + 
+                        Fit0$data$scaled_variable[Nc, 2],
+                      standard.variate = Fit0$addtive.fit.Data$sim_SPRESS,
+                      sd = apply(estimate, c(1), sd),
+                      func = apply(estimate, c(1), mean)) %>% setorderv("variate")
+m <- c(min(da.plot$func - 1.96*da.plot$sd), 
+       max(da.plot$func + 1.96*da.plot$sd))
+# plot(da.plot$variate, da.plot$func, type = "l", ylim = m)
+# lines(da.plot$variate, da.plot$func + 1.96*da.plot$sd)
+# lines(da.plot$variate, da.plot$func - 1.96*da.plot$sd)
+da.plot$Flag = "Surface pressure"
+da.plot$Var <- 3
+da.var <- rbind(da.var, da.plot)
+###############################WIND_Y###############################
+estimate <- 2*pred[, Nc + 2] - Con.Simu.Pred[, Nc + 1,]
+da.plot <- data.frame(variate = Fit0$addtive.fit.Data$sim_WIND_X*
+                        Fit0$data$scaled_variable[Nc + 1, 3] + 
+                        Fit0$data$scaled_variable[Nc + 1, 2], 
+                      standard.variate = Fit0$addtive.fit.Data$sim_WIND_X, 
+                      sd = apply(estimate, c(1), sd),
+                      func = apply(estimate, c(1), mean)) %>% setorderv("variate")
+m <- c(min(da.plot$func - 1.96*da.plot$sd), 
+       max(da.plot$func + 1.96*da.plot$sd))
+# plot(da.plot$variate, da.plot$func, type = "l", ylim = m)
+# lines(da.plot$variate, da.plot$func + 1.96*da.plot$sd)
+# lines(da.plot$variate, da.plot$func - 1.96*da.plot$sd)
+da.plot$Flag = "Eastern cumulative wind"
+da.plot$Var <- 4
+da.var <- rbind(da.var, da.plot)
+###############################TEMP###############################
+estimate <- 2*pred[, Nc + 3] - Con.Simu.Pred[, Nc + 2,]
+da.plot <- data.frame(variate = Fit0$addtive.fit.Data$sim_WIND_Y*
+                        Fit0$data$scaled_variable[Nc + 2, 3] + 
+                        Fit0$data$scaled_variable[Nc + 2, 2], 
+                      standard.variate = Fit0$addtive.fit.Data$sim_WIND_Y, 
+                      sd = apply(estimate, c(1), sd),
+                      func = apply(estimate, c(1), mean)) %>% setorderv("variate")
+m <- c(min(da.plot$func - 1.96*da.plot$sd), 
+       max(da.plot$func + 1.96*da.plot$sd))
+# plot(da.plot$variate, da.plot$func, type = "l", ylim = m)
+# lines(da.plot$variate, da.plot$func + 1.96*da.plot$sd)
+# lines(da.plot$variate, da.plot$func - 1.96*da.plot$sd)
+da.plot$Flag = "Northern cumulative wind"
+da.plot$Var <- 5
+da.var <- rbind(da.var, da.plot)
+###############################SPRESS###############################
+###############################SPRESS###############################
+da.var$Flag <- ordered(da.var$Flag, levels = c("Time", "Surface temperature",
+                                               "Surface pressure", 
+                                               "Eastern cumulative wind", 
+                                               "Northern cumulative wind"))
+# Label <- as_labeller(c(`Time` = "Time",
+#                        `Surface temperature` = "Surface temperature",
+#                        `Surface pressure` = "Surface pressure",
+#                        `Eastern cumulative wind` = "Eastern cumulative wind power",
+#                        `Northern cumulative wind power` = "Northern cumulative wind power"))
+
+#------------------------------------------------------
+
+time.data <- da.var[da.var$Flag == "Time",]
+p1 <- smoothing.est.plot(time.data, x.lab = "Date",  hjust = -0.8,
+                         y.lab = TeX(r"($\hat{g}_0$ with 95% CI)"))
+size <- c(11, 18, 22)
+p1 <- p1 + scale_x_continuous(
+  # expand = c(1e-5, 0),
+  breaks  = c(0, 50, 92), 
+  labels = c("Oct 31, 2015",
+             # "Nov 25, 2015", 
+             "Dec 20, 2015",
+             # "Jan 15, 2015", 
+             "Jan 31, 2016")) + geom_label(label.size = 0,
+                                           aes(x = 0.5, y = 4, 
+                                               label =  "(a)"),
+                                           nudge_x = -1,
+                                           # family = c("sans"),
+                                           # fontface = 'bold',
+                                           color = "black", size = size[1]) +
+  # scale_x_continuous(
+  #   # expand = c(1e-5, 0),
+  #   breaks  = seq(0.8, 1.05, 0.03)
+  #   , labels = seq(0.8, 1.05, 0.03)
+  # ) +
+  scale_y_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = round(seq(-5, 3, 1), 1)
+    , labels = round(seq(-5, 3, 1), 1)
+  ) +
+  theme(axis.text = element_text(size = size[2], colour = "black")
+        , axis.text.x = element_text(hjust = 0.78)
+        , axis.title = element_text(size = size[3], colour = "black")
+        , legend.title = element_text(size = size[3], colour = "black")
+        , legend.text = element_text(size = size[2], colour = "black")
+        , strip.text =  element_text(size = size[2], colour = "black"))
+# p1
+M <- range(da.var[da.var$Flag == "Surface temperature", 1])
+p2 <- smoothing.est.plot(da.var[da.var$Flag == "Surface temperature",], 
+                         x.lab = expression(paste("Surface temperature (", degree, "C)")), 
+                         y.lab = TeX(r"($\hat{g}_1$ with 95% CI)"))+
+  geom_label(label.size = 0,
+             aes(x = -28, y = 3.2, 
+                 label =  "(b)"),
+             nudge_x = -0.5,
+             # family = c("sans"),
+             # fontface = 'bold',
+             color = "black", size = size[1]) +
+  scale_x_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = seq(floor(M[1]), ceiling(M[2]), 5), 
+    labels = seq(floor(M[1]), ceiling(M[2]), 5)
+  ) +
+  scale_y_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = round(seq(-3, 2.5, 0.5), 1), 
+    labels = round(seq(-3, 2.5, 0.5), 1)
+  ) +
+  theme(axis.text = element_text(size = size[2], colour = "black")
+        , axis.title = element_text(size = size[3], colour = "black")
+        , legend.title = element_text(size = size[3], colour = "black")
+        , legend.text = element_text(size = size[2], colour = "black")
+        , strip.text =  element_text(size = size[2], colour = "black"))
+
+
+Press <- da.var[da.var$Flag == "Surface pressure",]
+Press[, 1] <- Press[, 1]/1000
+M <- range(Press[, 1])
+p3 <- smoothing.est.plot(Press, 
+                         x.lab = latex2exp::TeX(r"(Surface pressure ($\times 10^3 Pa$))"),
+                         y.lab = TeX(r"($\hat{g}_2$ with 95% CI)"))+ #,  hjust = 0.7
+  geom_label(label.size = 0,
+             aes(x=90, y = 1.2,
+                 label =  "(c)"),
+             # nudge_x = -1E-2,
+             # family = c("sans"),
+             # fontface = 'bold',
+             color = "black", size = size[1])+
+  scale_x_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = seq(floor(M[1]), ceiling(M[2]), 2), 
+    labels = seq(floor(M[1]), ceiling(M[2]), 2)
+  ) +
+  scale_y_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = round(seq(-2, 1, 0.5), 1), 
+    labels = round(seq(-2, 1, 0.5), 1)
+  ) +
+  theme(axis.text = element_text(size = size[2], colour = "black")
+        , axis.title = element_text(size = size[3], colour = "black")
+        , legend.title = element_text(size = size[3], colour = "black")
+        , legend.text = element_text(size = size[2], colour = "black")
+        , strip.text =  element_text(size = size[2], colour = "black"))
+# p4
+M <- range(da.var[da.var$Flag == "Eastern cumulative wind",1])
+p4 <- smoothing.est.plot(da.var[da.var$Flag == "Eastern cumulative wind",], 
+                         x.lab = "Eastern cumulative wind power (m/s)", 
+                         y.lab = TeX(r"($\hat{g}_3$ with 95% CI)")) +
+  geom_label(label.size = 0,
+             aes(x = -11, y = 0.7, 
+                 label =  "(d)"),
+             nudge_x = 0.0,
+             # family = c("sans"),
+             # fontface = 'bold',
+             color = "black", size = size[1]) +
+  scale_x_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = seq(floor(M[1]), ceiling(M[2]), 5), 
+    labels = seq(floor(M[1]), ceiling(M[2]), 5)
+  ) +
+  scale_y_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = round(seq(-2, 0.6, 0.5), 1)
+    , labels = round(seq(-2, 0.6, 0.5), 1)
+  ) +
+  theme(axis.text = element_text(size = size[2], colour = "black")
+        , axis.title = element_text(size = size[3], colour = "black")
+        , legend.title = element_text(size = size[3], colour = "black")
+        , legend.text = element_text(size = size[2], colour = "black")
+        , strip.text =  element_text(size = size[2], colour = "black"))
+# p5
+M <- range(da.var[da.var$Flag == "Northern cumulative wind",1])
+p5 <- smoothing.est.plot(da.var[da.var$Flag == "Northern cumulative wind",], 
+                         x.lab = "Northern cumulative wind power (m/s)",
+                         y.lab = TeX(r"($\hat{g}_4$ with 95% CI)")) +
+  geom_label(label.size = 0,
+             aes(x = floor(M[1]), y = 0.7,
+                 label =  "(e)"),
+             nudge_x = 0,
+             # family = c("sans"),
+             # fontface = 'bold',
+             color = "black", size = size[1])+
+  scale_x_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = seq(floor(M[1]), ceiling(M[2]), 5), 
+    labels = seq(floor(M[1]), ceiling(M[2]), 5)
+  ) +
+  scale_y_continuous(
+    # expand = c(1e-5, 0),
+    breaks  = round(seq(-1.5, 1, 0.4), 1)
+    , labels = round(seq(-1.5, 1, 0.4), 1)
+  ) +
+  theme(axis.text = element_text(size = size[2], colour = "black")
+        , axis.title = element_text(size = size[3], colour = "black")
+        , legend.title = element_text(size = size[3], colour = "black")
+        , legend.text = element_text(size = size[2], colour = "black")
+        , strip.text =  element_text(size = size[2], colour = "black"))
+# p6
+p <- ggpubr::ggarrange(p1, p2, p3, p4, p5, nrow = 1, ncol = 5)
+# p <- cowplot::plot_grid(p1, p2, p3, p4, p5, nrow = 1, ncol = 5)
+# p
+ggsave(
+  plot = p,
+  file = "./figure/Fig10.pdf",
+  width  = 32,
+  height = 6#,
+  # dpi = 500
+)
+#-----------
