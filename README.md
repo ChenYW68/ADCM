@@ -40,5 +40,5 @@ Based on the ADCM, we perform a space-time calibration of the CMAQ system output
 solid squares represent the average PM2.5 levels at the monitoring stations, i.e.,
 ![ADCM](./ADCMs/figure/FigS3.png)
 
-![](./ADCMs/figure/Fig11.png)
+![](./ADCM/ADCMs/figure/Fig11.png)
 In each of the 13 cities, the average PM2.5 concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before-calibration CMAQ outputs do not match well with most of the pollution data. After calibration, the transition from the cities to their surrounding areas becomes much smoother.
