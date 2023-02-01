@@ -4,19 +4,19 @@ Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerica
 
 ## Data
 
-Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations. The datasets contain two seasons of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
+Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations. The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are 3 .RData files. 
 -	CMAQ_PM25.RData contains numerical model outputs;
 -	SiteData.RData is for 68 monitoring stations;
 -	GeoMap.RData from other data sources. 
 
-We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our stBase package, these data files can be loaded by using the ``data'' function. 
+We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
 
 ## Codes
 There are two parts to our codes: 
-1. Our two algorithms, the VB and the EnKs, were written into the [ADCM](https://github.com/ChenYW68/HDCM/tree/main/ADCM/package) package in the R statistical environment;
-2. A project entitled ``[HDCMc.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCMc)'' in the [RStudio](https://www.rstudio.com/products/rstudio/download/) environment was built to reproduce all the results (e.g., figures and tables) in this work. 
+1. The MEnKS-EM algorithm was written into the [ADCM](https://github.com/ChenYW68/HDCM/tree/main/ADCM/package) package in the R statistical environment;
+2. A project entitled ``[ADCMs.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCMs)'' in the [RStudio](https://www.rstudio.com/products/rstudio/download/) environment was built to reproduce all the results (e.g., figures and tables) in this work. 
 
 ```
 # Require core package
