@@ -4,10 +4,8 @@ Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerica
 
 ## Data
 
-Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure {#labelname} for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
-
-![labelname :: This is the label text.](./ADCMs/figure/Fig1.png).
-<figure id="figref-labelname">
+Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 {#Figure1} for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
+<figure id="Figure1">
   <img src="./ADCMs/figure/Fig1.png">
   <figcaption>
   <strong>Figure 1:</strong> Maps of the BTH region under different gridding systems with the locations of 68 monitoring stations marked by the
