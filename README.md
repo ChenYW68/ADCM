@@ -24,9 +24,9 @@ There are two parts to our codes:
 2. Rcpp >= 1.0.7
 ```
 ## Installing and loading dependent packages
-(1) Open the project file, ``[ADCM.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCM)'', based on the [RStudio](https://www.rstudio.com/products/rstudio/download/) tool.
+-	Open the project file, ``[ADCMs.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCM)'', based on the [RStudio](https://www.rstudio.com/products/rstudio/download/) tool.
 
-(2) Install all the dependent packages via the following command:
+-	Install all the dependent packages via the following command:
 ```
 source("./R/PSTVB_Packages.R")
 ```
