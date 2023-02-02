@@ -5,7 +5,7 @@ rm(list = ls())
 source("./LoadPackages/PSTVB_Packages.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
-hdcm.table <- "ADCM"
+hdcm.table <- "ADCMxz"
 Ch <- .3
 Cs <- .1
 Obj.Seq <- 1:13
@@ -133,7 +133,7 @@ tab <- paste0("_", tab.1, "_", tab.2)
 star.time <- proc.time()
 cv.ADCM <- ADCM(Mean.formula = formula.exp,
                            Tab = paste0(hdcm.table, tab),
-                           Site = Site, 
+                           # Site = Site, 
                            ADCM.Data = ADCM_Data, 
                            H.basic.data = H.basic.data,
                            para = para, 
