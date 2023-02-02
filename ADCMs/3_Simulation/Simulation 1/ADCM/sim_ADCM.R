@@ -23,12 +23,6 @@ source("./code/LoadPackages/PSTVB_Packages.R")
 source("./code/3_Simulation/ADCM/Simu_stData.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/sim_MEnKS_EM.R")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/EM.R")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/sim_ADCM.R")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/util.R")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/MEnKS.R")
-source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/Construct_TestTrain_Data.R")
 save.Predict <- F
 
 load("./data/Simu_data.RData")

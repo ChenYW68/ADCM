@@ -1,0 +1,26 @@
+{
+    "id": "50BF886E",
+    "path": "M:/ADCM/ADCMs/3_Simulation/Simulation 1/ADCM/sim_ADCM.R",
+    "project_path": "3_Simulation/Simulation 1/ADCM/sim_ADCM.R",
+    "type": "r_source",
+    "hash": "2659050478",
+    "contents": "",
+    "dirty": false,
+    "created": 1675305159071.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "24,42",
+        "scrollLine": "12"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1675305174,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1675305174,
+    "read_only": false,
+    "read_only_alternatives": []
+}

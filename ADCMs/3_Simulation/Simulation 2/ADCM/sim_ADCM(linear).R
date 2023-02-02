@@ -1,7 +1,7 @@
   rm(list=ls())
-  source("./code/LoadPackages/PSTVB_Packages.R")
-  load("./code/3_Simulation/data/Simu_data.RData")
-  source("./code/3_Simulation/Code/Simu_stData.R")
+  source("./LoadPackages/PSTVB_Packages.R")
+  source("./3_Simulation/Simulation 2/Simu_stData.R")
+  load("./3_Simulation/Simulation 2/Simu_data.RData")
   data("SiteData", package = "ADCM")
   data("China_BTH_GeoMap", package = "ADCM")
   index <- which(colnames(Simu_data$Site) %in% c("LON_X", "LAT_Y"))
@@ -46,17 +46,11 @@
   
   # ######################################################################
   # ######################################################################
-  # Boundary <- data.frame(LON = c(113.4587, 119.8483),
-  #                        LAT = c(36.04610, 42.61761))
-  # Map_BTH <- fortify(China.province.map)
-  # # colnames(Map_BTH)[1:2] <- c("LON", "LAT")
-  # assign("Map_BTH", Map_BTH, envir = .GlobalEnv)
   Boundary <- as.data.frame(t(bbox(China.province.map)))
   names(Boundary) <- c("LON", "LAT")
   # ######################################################################
   # ######################################################################
-  R <- 2
-  model.Grid = ADCM::makeGrids(Boundary, R, 15, 3.5)
+  model.Grid = ADCM::makeGrids(Boundary, 2, 15, 3.5)
   # ######################################################################
   # ######################################################################
   # ######################################################################
@@ -67,13 +61,7 @@
   # ######################################################################
   # ######################################################################
   
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/sim_MEnKS_EM.R")
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/EM.R")
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/sim_ADCM.R")
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/util.R")
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/MEnKS.R")
-  source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/Construct_TestTrain_Data.R")
-  
+ 
   Ch <- 0.2
   Cs <- 0.2
   save.Predict <- F
@@ -86,7 +74,7 @@
     ######################################################################
     if(iter == start[1]){
       # ADCM_Data$siteid = "ID"
-      # source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/CreateHmatrix.R")
+      # source("I:/OneDrive - 中山大学/ThesisNonDynamiCalib/ADCM/R/CreateHmatrix.R")
       H.basic.data <- ADCM::CreateHmatrix(grid_coords = model.Grid,
                                           Geo_Map_Coord = China.province.map,
                                           method = c("Wendland"), #Wendland, indicator
