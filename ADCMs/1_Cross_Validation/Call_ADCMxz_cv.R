@@ -14,12 +14,12 @@ Obj.Seq <- 1:13
 Ct <- 1; Ne <- 100
 ##############################################################################################
 
-DATE_TIME <- unique(obs_PM25_2015w$DATE_TIME) %>% sort()
+DATE_TIME <- unique(obs_PM25_2015s$DATE_TIME) %>% sort()
 Nt <- length(DATE_TIME)
 date.time <- data.frame(time.index = 1:Nt,
                         time.scale = seq(0, 1, , Nt),
                         DATE_TIME = DATE_TIME)
-Model_Base_Table <- obs_PM25_2015w  %>% left_join(date.time, 
+Model_Base_Table <- obs_PM25_2015s  %>% left_join(date.time, 
                                                     by = c("DATE_TIME"))
 
 colnames(Model_Base_Table)
@@ -59,8 +59,8 @@ print(H.basic.data$Grid.infor$summary$Knots.clip.distance)
 ######################################################################
 ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
                      include = list(
-                                     YEAR = c(2015, 2016),
-                                     month_day = c("11-01", "1-31")
+                                     YEAR = c(2015, 2015),
+                                     month_day = c("06-01", "08-31")
                                    ),
                      Y = "REAL_PM25",
                      X = c("sim50_CMAQ_PM25"
@@ -140,19 +140,17 @@ cv.ADCM <- ADCM(Mean.formula = formula.exp,
                            Ensemble.size = Ne,
                            ensemble.group = 1,
                            CV = T, 
-                           plot = T,
-                           Database = NULL, #list(
-                              # DSN = odbcConnect(dsn = "DSN_01", 
-                              #                   uid = "myname",
-                              #                   pwd = "mypwd",
-                              #                   believeNRows = FALSE,
-                              #                   case = "toupper")),
+                           plot = TRUE,
+                           Database = list(
+                              DSN = odbcConnect(dsn = "DSN_01",
+                                                uid = "myname",
+                                                pwd = "mypwd",
+                                                believeNRows = FALSE,
+                                                case = "toupper")),
                            verbose.EM = TRUE,
                            verbose = TRUE, 
                            Object = "CITY",
                            response.transf = c("sr"),
-                           drop.intercept = F,
-                           Random.first = F,
                            itMin = 1e1,
                            cs = Cs, 
                            ct = Ct,

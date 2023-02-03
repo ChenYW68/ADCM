@@ -8,7 +8,7 @@ data("China_BTH_GeoMap", package = "ADCM")
 hdcm.table <- "ADCMx"
 Ch <- .3
 Cs <- .1
-Obj.Seq <- 1:13
+Obj.Seq <- 1:1
 
 ##############################################################################################
 Ct <- 1; Ne <- 100
@@ -125,8 +125,7 @@ cv.ADCM <- ADCM(Mean.formula = formula.exp,
                 para = para, 
                 Ensemble.size = Ne,
                 ensemble.group = 1,
-                CV = T, 
-                plot = F,
+                CV = TRUE, 
                 Database = NULL, #list(
                 # DSN = odbcConnect(dsn = "DSN_01", 
                 #                   uid = "myname",
@@ -137,8 +136,6 @@ cv.ADCM <- ADCM(Mean.formula = formula.exp,
                 verbose = TRUE, 
                 Object = "CITY",
                 response.transf = c("sr"),
-                drop.intercept = F,
-                Random.first = F,
                 itMin = 1e1,
                 cs = Cs, 
                 ct = Ct,

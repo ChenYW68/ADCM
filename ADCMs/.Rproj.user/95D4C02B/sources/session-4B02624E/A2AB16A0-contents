@@ -5,21 +5,29 @@ rm(list = ls())
 source("./LoadPackages/PSTVB_Packages.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
-hdcm.table <- "ADCMx"
+
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/MEnKS_EM.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/EM.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/ADCM.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/util.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/MEnKS.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/Construct_TestTrain_Data.R")
+source("I:/OneDrive - 中山大学/ThesisCode/NonDynamiCalib/ADCM/R/CreateHmatrix.R")
+hdcm.table <- "ADCMxz"
 Ch <- .3
 Cs <- .1
-Obj.Seq <- 1:1
+Obj.Seq <- 1:13
 
 ##############################################################################################
 Ct <- 1; Ne <- 100
 ##############################################################################################
 
-DATE_TIME <- unique(obs_PM25_2015w$DATE_TIME) %>% sort()
+DATE_TIME <- unique(obs_PM25_2015s$DATE_TIME) %>% sort()
 Nt <- length(DATE_TIME)
 date.time <- data.frame(time.index = 1:Nt,
                         time.scale = seq(0, 1, , Nt),
                         DATE_TIME = DATE_TIME)
-Model_Base_Table <- obs_PM25_2015w  %>% left_join(date.time, 
+Model_Base_Table <- obs_PM25_2015s  %>% left_join(date.time, 
                                                   by = c("DATE_TIME"))
 
 colnames(Model_Base_Table)
@@ -59,11 +67,16 @@ print(H.basic.data$Grid.infor$summary$Knots.clip.distance)
 ######################################################################
 ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
                                  include = list(
-                                   YEAR = c(2015, 2016),
-                                   month_day = c("11-01", "1-31")
+                                   YEAR = c(2015, 2015),
+                                   month_day = c("06-01", "08-31")
                                  ),
                                  Y = "REAL_PM25",
                                  X = c("sim50_CMAQ_PM25"
+                                       , "time.scale"
+                                       , "sim_TEMP"
+                                       , "sim_SPRESS"
+                                       , "sim_WIND_X"
+                                       , "sim_WIND_Y"
                                  ), 
                                  standard = T, 
                                  center = T, 
@@ -91,7 +104,7 @@ ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
   nx <- dim(ADCM_Data$X_ts)[1]
   zeta <- sqrt(50/(2*sqrt(2)))
   zeta
-  para <- list(beta = list(E_beta = c(7, 2.5, rep(0, nx - 2))), 
+  para <- list(#beta = list(E_beta = c(3.5, 0.5, rep(0, nx - 2))), 
                rho = list(E_rho = 1e-1) 
                ##  Q = tau.sq*(G + zeta*G)
                , zeta = list(E_zeta = zeta, lower = 1E-3, upper = 1e1)
@@ -105,7 +118,16 @@ ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
 ######################################################################
 #                 the formula for additive mdoels
 ######################################################################
-formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25")
+# the list of parameters for the nonlinear part 
+bs <- " 'cc' "; k <- 5
+formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25  +
+s(time.scale, k = ", k + 4, ", bs = ", bs, ", m = 2) +
+s(sim_TEMP, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_SPRESS, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_WIND_X, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_WIND_Y, k = ", k + 4, ", bs = ", bs, ", m = 2)")
+
+# formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25")
 
 ######################################################################
 #                           fit model and prediction
@@ -125,13 +147,14 @@ cv.ADCM <- ADCM(Mean.formula = formula.exp,
                 para = para, 
                 Ensemble.size = Ne,
                 ensemble.group = 1,
-                CV = TRUE, 
-                Database = NULL, #list(
-                # DSN = odbcConnect(dsn = "DSN_01", 
-                #                   uid = "myname",
-                #                   pwd = "mypwd",
-                #                   believeNRows = FALSE,
-                #                   case = "toupper")),
+                CV = T, 
+                plot = TRUE,
+                Database = list(
+                  DSN = odbcConnect(dsn = "DSN_01",
+                                    uid = "myname",
+                                    pwd = "mypwd",
+                                    believeNRows = FALSE,
+                                    case = "toupper")),
                 verbose.EM = TRUE,
                 verbose = TRUE, 
                 Object = "CITY",
