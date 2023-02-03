@@ -55,7 +55,7 @@ Maps of the BTH region under different gridding systems with the locations of $6
 Estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI). Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
 ![ADCM](./ADCMs/figure/Fig10.png)
 
-### Space-time calibration
+### Space-time correction
 
 Based on the ADCM, we perform a space-time calibration of the CMAQ system outputs for the entire BTH region using the proposed addictive dynamic correction model (ADCM). The following figure displays CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The
 solid squares represent the average PM2.5 levels at the monitoring stations, i.e.,
