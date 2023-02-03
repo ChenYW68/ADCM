@@ -40,7 +40,7 @@ source("./R/PSTVB_Packages.R")
 ```
 Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can be installed by running:
 ```
- install.packages("./package/ADCM_1.0.zip", repos = NULL, type = "win.binary")
+ install.packages("./LoadPackages/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
 ## Data
