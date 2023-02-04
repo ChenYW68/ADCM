@@ -13,7 +13,7 @@ Gneiting class (Gneiting, 2002).
 
 We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
 
-### Spatial distributions for three datasets 
+### Spatial distributions for the monitoring stations and two numerical grid cells in the BTH region
 <figure id="Figure1">
   <img src="./ADCMs/figure/Fig1.png">
   <figcaption>
