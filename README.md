@@ -1,9 +1,10 @@
 
 # ADCM
-Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerical Model Outputs” by Y. Chen, X. Chang, F. Luo, and H. Huang. 
+Data and Codes for the paper: ''Additive Dynamic Models for Correcting Numerical Model Output'' by Y. Chen, X. Chang, F. Luo, and H. Huang. 
 
 ## Data
-Daily PM$_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM$_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
+
+Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are several .RData files. 
 -	SiteData.RData is for PM$_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
@@ -12,6 +13,8 @@ There are several .RData files.
 Gneiting class (Gneiting, 2002).
 
 We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
+
+
 
 ### Spatial distributions for the monitoring stations and two numerical grid cells in the BTH region
 <figure id="Figure1">
