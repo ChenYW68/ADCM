@@ -11,7 +11,7 @@ There are several .RData files.
 - Other files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
 
-### spatial distributions for data
+### Spatial distributions for data
 <figure id="Figure1">
   <img src="./ADCMs/figure/Fig1.png">
   <figcaption>
