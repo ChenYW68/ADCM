@@ -3,13 +3,15 @@
 Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerical Model Outputs” by Y. Chen, X. Chang, F. Luo, and H. Huang. 
 
 ## Data
-Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
+Daily PM$_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM$_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
 
 There are several .RData files. 
 -	SiteData.RData is for PM$_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
 -	China_BTH_GeoMap.RData for the related geographic data that can be used to plot maps of the BTH region;
 - Other files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
+
+We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
 
 ### Spatial distributions for data
 <figure id="Figure1">
@@ -20,10 +22,6 @@ red dots. (a) Map with the centroids of 5,587 9-km CMAQ grids (gray dots). (b) M
 grids (gray dots).
   </figcaption>
 </figure>
-
-
-
-We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
 
 ## Codes
 There are two parts to our codes: 
@@ -182,8 +180,7 @@ cv.ADCM <- ADCM(Mean.formula = formula.exp,
                 cs = Cs, 
                 ct = Ct,
                 tol.real = 1e-2, 
-                itMax = 5e1, 
-                Obj.Seq = 1)
+                itMax = 5e1)
 end.time <- proc.time()
 run_time <- (end.time - star.time)[3] 
 # })
@@ -192,15 +189,21 @@ run_time <- (end.time - star.time)[3]
 save(Fit, file = "./2_Calibration/all_Fit.RData")
 ```
 
-
 ### Estimated nonlinear functions
-Estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI). Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
-![ADCM](./ADCMs/figure/Fig10.png)
+Based on the proposed ADCM, we obtained the nonlinear relationships between the observed PM$_{2.5}$ concentrations and other meteorological variables, and Figure 2 presents the estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI).
+<figure id="Figure2">
+  <img src="./ADCMs/figure/Fig10.png">
+  <figcaption>
+  <strong>Figure 1:</strong> Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
+  </figcaption>
+</figure>
 
 ### Space-time correction
-
-Based on the ADCM, we perform a space-time calibration of the CMAQ system outputs for the entire BTH region using the proposed addictive dynamic correction model (ADCM). The following figure displays CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The
-solid squares represent the average PM2.5 levels at the monitoring stations, i.e.,
-![ADCM](./ADCMs/figure/Fig11.png)
-
-In each of the 13 cities, the average PM2.5 concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before-calibration CMAQ outputs do not match well with most of the pollution data. After calibration, the transition from the cities to their surrounding areas becomes much smoother.
+Figure3 describes the corrected performance of the ADCM for the CMAQ system PM$_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
+<figure id="Figure3">
+  <img src="./ADCMs/figure/Fig11.png">
+  <figcaption>
+  <strong>Figure 1:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average PM$_{2.5}$ levels at the monitoring stations.
+  </figcaption>
+</figure>
+In each of the 13 cities, the average PM$_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother.
