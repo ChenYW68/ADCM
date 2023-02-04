@@ -3,8 +3,17 @@
 Data and Codes for the paper: “Additive Dynamic Models for Correcting Numerical Model Outputs” by Y. Chen, X. Chang, F. Luo, and H. Huang. 
 
 ## Data
+Daily PM$_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM$_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
 
-Daily PM2.5 concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides PM2.5 concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables. 
+There are several .RData files. 
+-	SiteData.RData is for PM$_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
+-	China_BTH_GeoMap.RData for the related geographic data that can be used to plot maps of the BTH region;
+- Other data files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
+Gneiting class (Gneiting, 2002).
+
+We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
+
+### Spatial distributions for data
 <figure id="Figure1">
   <img src="./ADCMs/figure/Fig1.png">
   <figcaption>
@@ -14,13 +23,6 @@ grids (gray dots).
   </figcaption>
 </figure>
 
-There are 3 .RData files. 
--	CMAQ_PM25.RData contains numerical model outputs;
--	SiteData.RData is for 68 monitoring stations;
--	GeoMap.RData from other data sources. 
-
-We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
-
 ## Codes
 There are two parts to our codes: 
 1. The MEnKS-EM algorithm was written into the [ADCM](https://github.com/ChenYW68/HDCM/tree/main/ADCM/package) package in the R statistical environment;
@@ -28,37 +30,179 @@ There are two parts to our codes:
 
 ```
 # Require core package
-1. R >= 4.1.1
+1. R >= 4.2.1
 2. Rcpp >= 1.0.7
+3. mgcv >= 1.8-41
 ```
 ## Installing and loading dependent packages
 -	Open the project file, ``[ADCMs.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCM)'', based on the [RStudio](https://www.rstudio.com/products/rstudio/download/) tool.
 
 -	Install all the dependent packages via the following command:
 ```
-source("./R/PSTVB_Packages.R")
+source("./LoadPackages/RDependPackages.R")
 ```
 Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can be installed by running:
 ```
  install.packages("./LoadPackages/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
-## Data
-Maps of the BTH region under different gridding systems with the locations of $68$ monitoring stations marked by the red dots. (a) Map with the centroids of $5{, }587$ $9$-km CMAQ grids (gray dots). (b) Map with the centroids of $2{, }141$ $15$-km NAQPMS grids (gray dots).
+## An example for the proposed addictive dynamic correction model (ADCM)
+```
+# remove.packages("ADCM")
+# install.packages("./code/LoadPackages/ADCM_1.0.zip", 
+#                  repos = NULL, type = "win.binary")
+rm(list = ls())
+source("./LoadPackages/RDependPackages.R")
+data("SiteData", package = "ADCM")
+data("China_BTH_GeoMap", package = "ADCM")
+######################################################################
+# set tuning parameters
+######################################################################
+Ch <- .3; Cs <- .1; Ct <- 1; Ne <- 100
+######################################################################
+######################################################################
+# provide a name for all objects that will be saved
+tab.1 <- strsplit(as.character(Ch), ".", fixed = TRUE)[[1]][2]
+tab.2 <- strsplit(as.character(Cs), ".", fixed = TRUE)[[1]][2]
+# tab <- paste0(tab.1, "_", tab.2, "_", Ct)
+tab <- paste0("_", tab.1, "_", tab.2)
+hdcm.table <- paste0( "ADCM", tab)
 
-
-## An example for the proposed addictive dynamic correction model
-
-################################ An example for fitting ADCM ############################
+######################################################################
+# Combine other variables with time variable
+######################################################################
+DATE_TIME <- unique(obs_PM25_2015w$DATE_TIME) %>% sort()
+Nt <- length(DATE_TIME)
+date.time <- data.frame(time.index = 1:Nt,
+                        time.scale = seq(0, 1, , Nt),
+                        DATE_TIME = DATE_TIME)
+Model_Base_Table <- obs_PM25_2015w  %>% left_join(date.time, by = c("DATE_TIME"))
+######################################################################
+######################################################################
+# do transformation for some variables 
+Model_Base_Table[, c("sim50_CMAQ_PM25")] <- sqrt(Model_Base_Table[, c("sim50_CMAQ_PM25")])
+setDT(Model_Base_Table)
+######################################################################
+######################################################################
+# Do grids and create a basis matrix H
+######################################################################
+colnames(Map_BTH)[1:2] <- c("LON", "LAT")
+Boundary <- as.data.frame(t(bbox(China.province.map)))
+names(Boundary) <- c("LON", "LAT")
+model.Grid <- makeGrids(Boundary, nLayer = 2, NC = 15, nBuffer = 3.5) 
+H.basic.data <- CreateHmatrix(grid_coords = model.Grid, 
+                              Geo_Map_Coord = China.province.map,
+                              method = c("Wendland"), 
+                              Site = Site, 
+                              factor = 1, 
+                              Ch = Ch, 
+                              distance.scale = 1e3,
+                              Knots.clip.ratio = .10,
+                              hs.normal = FALSE) 
+######################################################################
+#                Constructing Data forms used in the ADCM 
+######################################################################
+ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
+                                 include = list(
+                                   YEAR = c(2015, 2016),
+                                   month_day = c("11-01", "1-31")
+                                 ),
+                                 Y = "REAL_PM25",
+                                 X = c("sim50_CMAQ_PM25"
+                                       , "time.scale"
+                                       , "sim_TEMP"
+                                       , "sim_SPRESS"
+                                       , "sim_WIND_X"
+                                       , "sim_WIND_Y"
+                                 ), 
+                                 standard = T, 
+                                 center = T, 
+                                 start.index = 2)
+######################################################################
+######################################################################
+#                               Model setting
+######################################################################
+{
+  ######################################################################
+  #                        initialize  parameters
+  ######################################################################
+  nx <- dim(ADCM_Data$X_ts)[1]
+  zeta <- sqrt(50/(2*sqrt(2)))
+  zeta
+  para <- list(beta = list(E_beta = c(3.5, 0.5, rep(0, nx - 2))), 
+               rho = list(E_rho = 1e-1) 
+               , zeta = list(E_zeta = zeta, lower = 1E-3, upper = 1e1)
+               , zeta0 = list(E_zeta0 = zeta, lower = 1E-3, upper = 1e1)
+               , phi = list(E_phi = 5e1, lower = 1e1, upper = 5e2) 
+               , Obs.sigma.sq = list(E_sigma.sq = 1) 
+               , Proc0.tau.sq = list(E_tau.sq = 1)
+               , Proc.tau.sq = list(E_tau.sq = 1)
+              )
+}
+######################################################################
+######################################################################
+#                 the formula for additive mdoels
+######################################################################
+# the list of parameters for the nonlinear part 
+bs <- " 'cc' "; k <- 5
+formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25  +
+s(time.scale, k = ", k + 4, ", bs = ", bs, ", m = 2) +
+s(sim_TEMP, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_SPRESS, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_WIND_X, k = ", k, ", bs = ", bs, ", m = 2) +
+s(sim_WIND_Y, k = ", k + 4, ", bs = ", bs, ", m = 2)")
+# formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25")
+######################################################################
+######################################################################
+#                           fit model and prediction
+######################################################################
+star.time <- proc.time()
+cv.ADCM <- ADCM(Mean.formula = formula.exp,
+                Tab = hdcm.table,
+                ADCM.Data = ADCM_Data, 
+                H.basic.data = H.basic.data,
+                para = para, 
+                Ensemble.size = Ne,
+                CV = FALSE, 
+                plot = TRUE,
+                Database = NULL, #list(
+                # DSN = odbcConnect(dsn = "DSN_01", 
+                #                   uid = "myname",
+                #                   pwd = "mypwd",
+                #                   believeNRows = FALSE,
+                #                   case = "toupper")),
+                verbose.EM = TRUE,
+                verbose = TRUE, 
+                Object = "CITY",
+                response.transf = c("sr"),
+                itMin = 1e1,
+                cs = Cs, 
+                ct = Ct,
+                tol.real = 1e-2, 
+                itMax = 5e1)
+end.time <- proc.time()
+run_time <- (end.time - star.time)[3] 
+# })
+######################################################################
+######################################################################
+save(Fit, file = "./2_Calibration/all_Fit.RData")
+```
 
 ### Estimated nonlinear functions
-Estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI). Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
-![ADCM](./ADCMs/figure/Fig10.png)
+Based on the proposed ADCM, we obtained the nonlinear relationships between the observed PM$_{2.5}$ concentrations and other meteorological variables, and Figure 2 presents the estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI).
+<figure id="Figure2">
+  <img src="./ADCMs/figure/Fig10.png">
+  <figcaption>
+  <strong>Figure 1:</strong> Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
+  </figcaption>
+</figure>
 
 ### Space-time correction
-
-Based on the ADCM, we perform a space-time calibration of the CMAQ system outputs for the entire BTH region using the proposed addictive dynamic correction model (ADCM). The following figure displays CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The
-solid squares represent the average PM2.5 levels at the monitoring stations, i.e.,
-![ADCM](./ADCMs/figure/Fig11.png)
-
-In each of the 13 cities, the average PM2.5 concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before-calibration CMAQ outputs do not match well with most of the pollution data. After calibration, the transition from the cities to their surrounding areas becomes much smoother.
+Figure3 describes the corrected performance of the ADCM for the CMAQ system PM$_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
+<figure id="Figure3">
+  <img src="./ADCMs/figure/Fig11.png">
+  <figcaption>
+  <strong>Figure 1:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average PM$_{2.5}$ levels at the monitoring stations.
+  </figcaption>
+</figure>
+In each of the 13 cities, the average PM$_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother.
