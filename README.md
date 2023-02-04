@@ -7,7 +7,7 @@ Data and Codes for the paper: ''Additive Dynamic Models for Correcting Numerical
 Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are several .RData files. 
--	SiteData.RData is for PM$_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
+-	SiteData.RData is for $PM_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
 -	China_BTH_GeoMap.RData for the related geographic data that can be used to plot maps of the BTH region;
 - Other data files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
@@ -192,7 +192,7 @@ save(Fit, file = "./2_Calibration/all_Fit.RData")
 ```
 
 ### Estimated nonlinear functions
-Based on the proposed ADCM, we obtained the nonlinear relationships between the observed PM$_{2.5}$ concentrations and other meteorological variables, and Figure 2 presents the estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI).
+Based on the proposed ADCM, we obtained the nonlinear relationships between the observed $PM_{2.5}$ concentrations and other meteorological variables, and Figure 2 presents the estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI).
 <figure id="Figure2">
   <img src="./ADCMs/figure/Fig10.png">
   <figcaption>
@@ -201,11 +201,11 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
 </figure>
 
 ### Space-time correction
-Figure3 describes the corrected performance of the ADCM for the CMAQ system PM$_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
+Figure3 describes the corrected performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
 <figure id="Figure3">
   <img src="./ADCMs/figure/Fig11.png">
   <figcaption>
-  <strong>Figure 1:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average PM$_{2.5}$ levels at the monitoring stations.
+  <strong>Figure 1:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average $PM_{2.5}$ levels at the monitoring stations.
   </figcaption>
 </figure>
 In each of the 13 cities, the average PM$_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall calibration results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother.
