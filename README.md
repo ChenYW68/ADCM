@@ -47,9 +47,7 @@ Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) pa
 Maps of the BTH region under different gridding systems with the locations of $68$ monitoring stations marked by the red dots. (a) Map with the centroids of $5{, }587$ $9$-km CMAQ grids (gray dots). (b) Map with the centroids of $2{, }141$ $15$-km NAQPMS grids (gray dots).
 
 
-## An example for the proposed addictive dynamic correction model
-
-################################ An example for fitting ADCM ############################
+## An example for the proposed addictive dynamic correction model (ADCM)
 ```
 # remove.packages("ADCM")
 # install.packages("./code/LoadPackages/ADCM_1.0.zip", 
@@ -62,20 +60,16 @@ data("China_BTH_GeoMap", package = "ADCM")
 ######################################################################
 # set tuning parameters
 ######################################################################
-```
 Ch <- .3; Cs <- .1; Ct <- 1; Ne <- 100
-```
 ######################################################################
 ######################################################################
-```
 # provide a name for all objects that will be saved
 tab.1 <- strsplit(as.character(Ch), ".", fixed = TRUE)[[1]][2]
 tab.2 <- strsplit(as.character(Cs), ".", fixed = TRUE)[[1]][2]
 # tab <- paste0(tab.1, "_", tab.2, "_", Ct)
 tab <- paste0("_", tab.1, "_", tab.2)
 hdcm.table <- paste0( "ADCM", tab)
-```
-```
+
 ######################################################################
 # Combine other variables with time variable
 ######################################################################
