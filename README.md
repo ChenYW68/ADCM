@@ -58,19 +58,24 @@ rm(list = ls())
 source("./LoadPackages/RDependPackages.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
-
+```
 ######################################################################
 # set tuning parameters
 ######################################################################
+```
 Ch <- .3; Cs <- .1; Ct <- 1; Ne <- 100
+```
 ######################################################################
 ######################################################################
+```
 # provide a name for all objects that will be saved
 tab.1 <- strsplit(as.character(Ch), ".", fixed = TRUE)[[1]][2]
 tab.2 <- strsplit(as.character(Cs), ".", fixed = TRUE)[[1]][2]
 # tab <- paste0(tab.1, "_", tab.2, "_", Ct)
 tab <- paste0("_", tab.1, "_", tab.2)
 hdcm.table <- paste0( "ADCM", tab)
+```
+```
 ######################################################################
 # Combine other variables with time variable
 ######################################################################
