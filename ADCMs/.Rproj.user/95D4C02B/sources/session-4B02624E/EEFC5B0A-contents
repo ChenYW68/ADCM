@@ -2,7 +2,7 @@
 # install.packages("./code/LoadPackages/ADCM_1.0.zip", 
 #                  repos = NULL, type = "win.binary")
 rm(list = ls())
-source("./LoadPackages/PSTVB_Packages.R")
+source("./LoadPackages/RDependPackages.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
 hdcm.table <- "ADCMxz"

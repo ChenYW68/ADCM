@@ -1,6 +1,6 @@
 # # 1 loading packages ---------------------------------------
 packages <- c("RandomFields", "data.table", "ggplot2"
-              ,"plyr", "parallel","sqldf", "ADCM"
+              ,"plyr", "parallel","sqldf", "ADCM", "varycoef"
               , "randomForest", "mgcv", "spTimer", "rARPACK"
               , "spBayes", "latex2exp", "gstat", "ggtext"
               , "lubridate", "dplyr", "INLA", "spTDyn"

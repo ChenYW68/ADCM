@@ -59,7 +59,7 @@ for(iter in start[1]:start[2]){
   test.id <- SVC_lme_Data$Site[SVC_lme_Data$Site$Simu == "Test", ]
   
 
-  # library(sp)
+  library(sp)
   # coords <- as.matrix(Simu_data0$Site[, c("LON_X", "LAT_Y")])
   # range(rdist(coords))
   

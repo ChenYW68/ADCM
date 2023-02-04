@@ -1,26 +1,20 @@
 rm(list=ls())
-source("./LoadPackages/PSTVB_Packages.R")
-# library(mgcv)
-# g0 <- function(t){
-#   t <- 1- t
-#   z <- 0.2 * t^11 * (10 * (1 - t))^6 + 10 * (10 * t)^3 * (1 - t)^10
-#   return((z))
-# }
-# g1 <- function(t){
-#   z <- 0.2 * t^11 * (10 * (1 - t))^6 + 10 * (10 * t)^3 * (1 - t)^10
-#   return(z)
-# }
-
+source("./LoadPackages/RDependPackages.R")
 # ######################################################################
 #                       Oracle database
 # ######################################################################
-Database <- 1
-if(!is.null(Database)){
+Database <- FALSE
+if(isTRUE(Database)){
   DSN_01 <- odbcConnect("DSN_01", uid = "myname", pwd = "mypwd", believeNRows = FALSE, case = "toupper")
 }
-
+# ######################################################################
+# ######################################################################
+# ######################################################################
 source("./3_Simulation/Simulation 1/Simu_stData.R")
 load("./3_Simulation/Simulation 1/Simu_data.RData")
+# ######################################################################
+# ######################################################################
+# ######################################################################
 Simu_data0 <- Simu_data
 para <- list( n = 1e2 #
               , Nt = 30
@@ -36,7 +30,7 @@ para <- list( n = 1e2 #
 # ######################################################################
 #                       create table names
 # ######################################################################
-if(!is.null(Database)){
+if(!isTRUE(Database)){
 simu <- paste0("Sim_MGCV_", para$n)
 Simulation_Para <- paste0(simu, "_para")
 }
@@ -118,7 +112,7 @@ for(iter in start[1]:start[2]){
   
   
   
-  if(!is.null(Database)){
+  if(!isTRUE(Database)){
     if((iter == 1)){
       sqlDrop(DSN_01, Simulation_Para, errors = F)
     }
@@ -168,7 +162,7 @@ for(iter in start[1]:start[2]){
   cat("\n\n\n\n*************************************************\n")
   cat(".................. iter = ", iter + 1, "..................\n")
   cat("*************************************************\n\n\n\n")
-  if(is.null(Database)&(iter >= start[2])){
+  if(isTRUE(Database)&(iter >= start[2])){
     save(Simulation_Para, file = paste0("./data/Simulation/Sim_MGCV_", para$n, "_", start[1], "_", start[2], ".RData"))
   }
 }
