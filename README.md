@@ -8,7 +8,7 @@ Daily PM$_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region fr
 There are several .RData files. 
 -	SiteData.RData is for PM$_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
 -	China_BTH_GeoMap.RData for the related geographic data that can be used to plot maps of the BTH region;
-- Other files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
+- Other data files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
 
 We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
