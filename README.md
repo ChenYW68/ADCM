@@ -202,7 +202,7 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
 </figure>
 
 ### Space-time correction
-Figure 3 describes the corrected performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
+Figure 3 describes the correction performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
 <figure id="Figure3">
   <img src="./ADCMs/figure/Fig11.png">
   <figcaption>
