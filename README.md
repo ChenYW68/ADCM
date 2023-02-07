@@ -1,6 +1,6 @@
 
-# ADCM
-Data and Codes for the paper: ''Additive Dynamic Models for Correcting Numerical Model Outputs'' by Y. Chen, X. Chang, F. Luo, and H. Huang. 
+# Additive Dynamic Models for Correcting Numerical Model Outputs
+Data and Code for the paper: ''Additive Dynamic Models for Correcting Numerical Model Outputs'' by Y. Chen, X. Chang, F. Luo, and H. Huang. 
 
 ## Data
 
