@@ -60,7 +60,7 @@ source("./LoadPackages/RDependPackages.R")
 data("SiteData", package = "ADCM")
 data("China_BTH_GeoMap", package = "ADCM")
 ######################################################################
-# set tuning parameters
+#                  Set tuning parameters
 ######################################################################
 Ch <- .3; Cs <- .1; Ct <- 1; Ne <- 100
 ######################################################################
@@ -128,7 +128,7 @@ ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
 ######################################################################
 {
   ######################################################################
-  #                        initialize  parameters
+  #                        Initialize  parameters
   ######################################################################
   nx <- dim(ADCM_Data$X_ts)[1]
   zeta <- sqrt(50/(2*sqrt(2)))
@@ -145,7 +145,7 @@ ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
 }
 ######################################################################
 ######################################################################
-#                 the formula for additive mdoels
+#                 The formula for additive mdoels
 ######################################################################
 # the list of parameters for the nonlinear part 
 bs <- " 'cc' "; k <- 5
@@ -158,7 +158,7 @@ s(sim_WIND_Y, k = ", k + 4, ", bs = ", bs, ", m = 2)")
 # formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25")
 ######################################################################
 ######################################################################
-#                           fit model and prediction
+#                          Model fiiting and prediction
 ######################################################################
 star.time <- proc.time()
 cv.ADCM <- ADCM(Mean.formula = formula.exp,
