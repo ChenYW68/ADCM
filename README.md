@@ -4,13 +4,13 @@ Data and Code for the paper: ''Additive Dynamic Models for Correcting Numerical 
 
 ## Data
 
-Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region from the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
+Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region are from two sources, namely the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are several .RData files. 
 -	SiteData.RData is for $PM_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
 -	China_BTH_GeoMap.RData for the related geographic data that can be used to plot maps of the BTH region;
-- CMAQ_NAQPMS_Grid_Cell.RData for the grid cell coordinates of two numerical models;
-- Other data files such as Simu_data.RData use to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
+- CMAQ_NAQPMS_Grid_Cell.RData is for the grid cell coordinates of two numerical models;
+- Other data files such as Simu_data.RData are used to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
 
 We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) for this work. Using our $\texttt{ADCM}$ package, these data files can be loaded by using the ``data'' function. 
