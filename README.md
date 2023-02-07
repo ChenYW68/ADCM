@@ -104,7 +104,7 @@ H.basic.data <- CreateHmatrix(grid_coords = model.Grid,
                               Knots.clip.ratio = .10,
                               hs.normal = FALSE) 
 ######################################################################
-#                Constructing Data forms used in the ADCM 
+#                Constructing data lists used in the ADCM 
 ######################################################################
 ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
                                  include = list(
