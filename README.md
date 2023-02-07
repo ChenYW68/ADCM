@@ -53,7 +53,7 @@ Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) pa
 ## An example for the proposed addictive dynamic correction model (ADCM)
 ```
 # remove.packages("ADCM")
-# install.packages("./code/LoadPackages/ADCM_1.0.zip", 
+# install.packages("./LoadPackages/ADCM_1.0.zip", 
 #                  repos = NULL, type = "win.binary")
 rm(list = ls())
 source("./LoadPackages/RDependPackages.R")
