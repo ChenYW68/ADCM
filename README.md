@@ -196,7 +196,7 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
 <figure id="Figure2">
   <img src="./ADCMs/figure/Fig10.png">
   <figcaption>
-  <strong>Figure 1:</strong> Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
+  <strong>Figure 2:</strong> Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
   </figcaption>
 </figure>
 
@@ -205,7 +205,7 @@ Figure 3 describes the correction performance of the ADCM for the CMAQ system $P
 <figure id="Figure3">
   <img src="./ADCMs/figure/Fig11.png">
   <figcaption>
-  <strong>Figure 1:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average $PM_{2.5}$ levels at the monitoring stations.
+  <strong>Figure 3:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average $PM_{2.5}$ levels at the monitoring stations.
   </figcaption>
 </figure>
 
