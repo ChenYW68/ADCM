@@ -4,7 +4,7 @@ Data and Code for the paper: ''Additive Dynamic Models for Correcting Numerical 
 
 ## Data
 
-Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region are from two sources, namely the Community Multiscale Air Quality (CMAQ) system and national monitoring stations (see Figure 1 for the distributions of grid cells and sites). The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
+Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region are from two sources, namely the Community Multiscale Air Quality (CMAQ) system and national monitoring stations. The datasets contain Winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, dew point, cumulative wind power, and other variables.
 
 There are several .RData files. 
 -	SiteData.RData is for $PM_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
