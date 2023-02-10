@@ -6,7 +6,7 @@ Data and Code for the paper: ''Additive Dynamic Models for Correcting Numerical 
 
 Daily $PM_{2.5}$ concentrations of China's Beijing-Tianjin-Hebei (BTH) region are from two sources, namely the Community Multiscale Air Quality (CMAQ) system and national monitoring stations. The datasets contain the winter of 2015 described in Section 2 of the manuscript. Besides $PM_{2.5}$ concentrations, these datasets contain many necessary covariates, such as longitude, latitude, air pressure, temperature, cumulative wind power, and other variables.
 
-There are several .RData files. 
+There are several .RData files:
 -	SiteData.RData is for $PM_{2.5}$ concentrations from 68 monitoring stations, which had been fused with outputs from numerical models by downscaler methods; see the manuscript for more details on data fusion;
 -	China_BTH_GeoMap.RData is for the related geographic data that can be used to plot maps of the BTH region;
 - CMAQ_NAQPMS_Grid_Cell.RData is for the grid cell coordinates of two numerical models;
@@ -32,7 +32,7 @@ grids (gray dots).
 
 ## Codes
 There are two parts to our codes: 
-1. The MEnKS-EM algorithm was written into the [ADCM](https://github.com/ChenYW68/HDCM/tree/main/ADCM/package) package in the R statistical environment;
+1. The MEnKS-EM algorithm was written into the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package in the R statistical environment;
 2. A project entitled ``[ADCMs.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCMs)'' in the [RStudio](https://www.rstudio.com/products/rstudio/download/) environment was built to reproduce all the results (e.g., figures and tables) in this work. 
 
 ```
