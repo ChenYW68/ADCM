@@ -53,7 +53,7 @@ Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/LoadPackage
  install.packages("./LoadPackages/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
 
-## An example for the proposed addictive dynamic correction model (ADCM)
+## An example for the ``ADCM``
 ```
 # remove.packages("ADCM")
 # install.packages("./LoadPackages/ADCM_1.0.zip", 
@@ -216,6 +216,5 @@ Figure 3 describes the correction performance of the ADCM for the CMAQ system $P
   </figcaption>
 </figure>
 
-##
-
+###
 In each of the 13 cities, the average $PM_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall correction results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother.
