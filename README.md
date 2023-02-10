@@ -19,7 +19,8 @@ We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/ma
 
 ### Spatial distributions for the monitoring stations and two numerical model grid cells in the BTH region
 <figure id="Figure1">
-  <img src="./ADCMs/figure/Fig1.png" width="50%" height="50%" align="center">
+<p align="center">
+  <img src="./ADCMs/figure/Fig1.png" width="50%" height="50%"></p>
   <figcaption>
   <strong>Figure 1:</strong> Maps of the BTH region under different gridding systems with the locations of 68 monitoring stations marked by the
 red dots. (a) Map with the centroids of 5,587 9-km CMAQ grids (gray dots). (b) Map with the centroids of 2,141 15-km NAQPMS
