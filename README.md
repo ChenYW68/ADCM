@@ -153,7 +153,7 @@ s(sim_WIND_X, k = ", k, ", bs = ", bs, ", m = 2) +
 s(sim_WIND_Y, k = ", k + 4, ", bs = ", bs, ", m = 2)")
 # formula.exp <- paste0("REAL_PM25 ~ sim50_CMAQ_PM25")
 #--------------------------------------------------------------------------------------
-#                          Model fiiting and prediction
+#                          Model fitting and prediction
 #--------------------------------------------------------------------------------------
 star.time <- proc.time()
 cv.ADCM <- ADCM(Mean.formula = formula.exp,
