@@ -13,7 +13,7 @@ There are several .RData files.
 - Other data files such as Simu_data.RData are used to test models, which were generated from a model with a nonseparable spatio-temporal covariance of the
 Gneiting class (Gneiting, 2002).
 
-We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCMs/LoadPackages/) for this work. Using our `$\texttt{ADCM}$` package, these data files can be loaded by using the ``data'' function. 
+We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCMs/LoadPackages/) for this work. Using our `ADCM` package, these data files can be loaded by using the ``data'' function. 
 
 
 
