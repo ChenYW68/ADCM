@@ -48,7 +48,7 @@ There are two parts to our codes:
 ```
 source("./LoadPackages/RDependPackages.R")
 ```
-Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/package) package can be installed by running:
+Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/LoadPackages) package can be installed by running:
 ```
  install.packages("./LoadPackages/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 ```
