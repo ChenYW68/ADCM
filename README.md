@@ -20,7 +20,8 @@ We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/ma
 ### Spatial distributions for the monitoring stations and two numerical model grid cells in the BTH region
 <figure id="Figure1">
 <p align="center">
-  <img src="./ADCMs/figure/Fig1.png" width="50%" height="50%"></p>
+  <img src="./ADCMs/figure/Fig1.png" width="50%" height="50%">
+ </p>
   <figcaption>
   <strong>Figure 1:</strong> Maps of the BTH region under different gridding systems with the locations of 68 monitoring stations marked by the
 red dots. (a) Map with the centroids of 5,587 9-km CMAQ grids (gray dots). (b) Map with the centroids of 2,141 15-km NAQPMS
@@ -196,7 +197,9 @@ save(Fit, file = "./2_Calibration/all_Fit.RData")
 ### Estimated nonlinear functions
 Based on the proposed ADCM, we obtained the nonlinear relationships between the observed $PM_{2.5}$ concentrations and other meteorological variables, and Figure 2 presents the estimated nonlinear functions $\hat{g}(\cdot)$ with conditionally simulated 95\% confidence intervals (CI).
 <figure id="Figure2">
+  <p align="center">
   <img src="./ADCMs/figure/Fig10.png">
+    </p>
   <figcaption>
   <strong>Figure 2:</strong> Figures (a)-(e) represent the estimates of functions for time, surface temperature, surface pressure, and eastern and northern cumulative wind powers, respectively.
   </figcaption>
@@ -205,7 +208,9 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
 ### Space-time correction
 Figure 3 describes the correction performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
 <figure id="Figure3">
+  <p align="center">
   <img src="./ADCMs/figure/Fig11.png" width="50%" height="50%">
+    </p>
   <figcaption>
   <strong>Figure 3:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average $PM_{2.5}$ levels at the monitoring stations.
   </figcaption>
