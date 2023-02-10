@@ -68,7 +68,7 @@ data("China_BTH_GeoMap", package = "ADCM")
 Ch <- .3; Cs <- .1; Ct <- 1; Ne <- 100
 ######################################################################
 ######################################################################
-# provide a name for all objects that will be saved
+# Provide a name for a list of all objects that will be saved
 tab.1 <- strsplit(as.character(Ch), ".", fixed = TRUE)[[1]][2]
 tab.2 <- strsplit(as.character(Cs), ".", fixed = TRUE)[[1]][2]
 # tab <- paste0(tab.1, "_", tab.2, "_", Ct)
