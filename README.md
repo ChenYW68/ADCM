@@ -199,7 +199,7 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
 Figure 3 describes the correction performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
 <figure id="Figure3">
   <p align="center">
-  <img src="./ADCMs/figure/Fig11.png" width="50%" height="50%">
+  <img src="./ADCMs/figure/Fig11.png" width="70%" height="50%">
     </p>
   <figcaption>
   <strong>Figure 3:</strong> CMAQ numerical model outputs before and after the ADCM correction from November 26 to December 1, 2015. The solid squares represent the average $PM_{2.5}$ levels at the monitoring stations.
