@@ -56,8 +56,7 @@ Moreover, the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCM/LoadPackage
 ## An example for the ``ADCM``
 ```
 # remove.packages("ADCM")
-# install.packages("./LoadPackages/ADCM_1.0.zip", 
-#                  repos = NULL, type = "win.binary")
+# install.packages("./LoadPackages/ADCM_1.0.zip", repos = NULL, type = "win.binary")
 rm(list = ls())
 source("./LoadPackages/RDependPackages.R")
 data("SiteData", package = "ADCM")
