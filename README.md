@@ -30,7 +30,7 @@ grids (gray dots).
 
 </figure>
 
-## Codes
+## Software packages
 There are two parts to our codes: 
 1. The MEnKS-EM algorithm was written into the [ADCM](https://github.com/ChenYW68/ADCM/tree/main/ADCMs/LoadPackages) package in the R statistical environment;
 2. A project entitled ``[ADCMs.Rproj](https://github.com/ChenYW68/ADCM/tree/main/ADCMs)'' in the [RStudio](https://www.rstudio.com/products/rstudio/download/) environment was built to reproduce all the results (e.g., figures and tables) in this work. 
