@@ -194,7 +194,7 @@ Based on the proposed ADCM, we obtained the nonlinear relationships between the 
   </figcaption>
 </figure>
 
-### Space-time correction
+<!-- ### Space-time correction
 Figure 3 describes the correction performance of the ADCM for the CMAQ system $PM_{2.5}$ outputs on the entire BTH region from November 26 to December 1, 2015, i.e.,
 <figure id="Figure3">
   <p align="center">
@@ -206,4 +206,4 @@ Figure 3 describes the correction performance of the ADCM for the CMAQ system $P
 </figure>
 
 ###
-In each of the 13 cities, the average $PM_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall correction results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother.
+In each of the 13 cities, the average $PM_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall correction results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother. -->
