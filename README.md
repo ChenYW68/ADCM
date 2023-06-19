@@ -71,10 +71,10 @@ tab.1 <- strsplit(as.character(Ch), ".", fixed = TRUE)[[1]][2]
 tab.2 <- strsplit(as.character(Cs), ".", fixed = TRUE)[[1]][2]
 # tab <- paste0(tab.1, "_", tab.2, "_", Ct)
 tab <- paste0("_", tab.1, "_", tab.2)
-hdcm.table <- paste0( "ADCM", tab)
+adcm.table <- paste0( "ADCM", tab)
 
 #--------------------------------------------------------------------------------------
-# Combine other variables with time variable
+# Combine other variables with the time variable
 #--------------------------------------------------------------------------------------
 DATE_TIME <- unique(obs_PM25_2015w$DATE_TIME) %>% sort()
 Nt <- length(DATE_TIME)
@@ -83,7 +83,7 @@ date.time <- data.frame(time.index = 1:Nt,
                         DATE_TIME = DATE_TIME)
 Model_Base_Table <- obs_PM25_2015w  %>% left_join(date.time, by = c("DATE_TIME"))
 
-#-- do transformation for some variables 
+#-- Do transformation for some variables 
 Model_Base_Table[, c("sim50_CMAQ_PM25")] <- sqrt(Model_Base_Table[, c("sim50_CMAQ_PM25")])
 setDT(Model_Base_Table)
 #--------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ ADCM_Data <- Construct_ADCM_Data(data = Model_Base_Table,
               )
 }
 #--------------------------------------------------------------------------------------
-#                 The formula for additive mdoels
+#                 The formula for additive models
 #--------------------------------------------------------------------------------------
 # the list of parameters for the nonlinear part 
 bs <- " 'cc' "; k <- 5
@@ -156,7 +156,7 @@ s(sim_WIND_Y, k = ", k + 4, ", bs = ", bs, ", m = 2)")
 #--------------------------------------------------------------------------------------
 star.time <- proc.time()
 cv.ADCM <- ADCM(Mean.formula = formula.exp,
-                Tab = hdcm.table,
+                Tab = adcm.table,
                 ADCM.Data = ADCM_Data, 
                 H.basic.data = H.basic.data,
                 para = para, 
@@ -206,4 +206,4 @@ Figure 3 describes the correction performance of the ADCM for the CMAQ system $P
 </figure>
 
 ###
-In each of the 13 cities, the average $PM_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall correction results. It is evident that the before correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother. -->
+In each of the 13 cities, the average $PM_{2.5}$ concentration of all the stations in the city is marked using a solid square. The smoother the transition from the cities to the rural areas, the better the overall correction results. It is evident that the before-correction CMAQ outputs do not match well with most of the pollution data. After correction, the transition from the cities to their surrounding areas becomes much smoother. -->
