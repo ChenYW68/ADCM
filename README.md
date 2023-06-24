@@ -1,6 +1,6 @@
 
 # Additive Dynamic Models for Correcting Numerical Model Outputs
-Data and Code for the paper: Y. Chen, X. Chang, F. Luo, and H. Huang (2023). [Additive Dynamic Models for Correcting Numerical Model Outputs](https://www.sciencedirect.com/science/article/pii/S016794732300110X), Computational Statistics and Data Analysis. 
+Data and Code for the paper: Y. Chen, X. Chang, F. Luo, and H. Huang (2023). [Additive Dynamic Models for Correcting Numerical Model Outputs](https://www.sciencedirect.com/science/article/pii/S016794732300110X), Computational Statistics and Data Analysis, 187: 107799.
 
 ## Data
 
