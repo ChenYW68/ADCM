@@ -20,7 +20,7 @@ We have developed an R package - [ADCM](https://github.com/ChenYW68/ADCM/tree/ma
   - Spatial distributions for the monitoring stations and two numerical model grid cells in the BTH region
 <figure id="Figure1">
 <p align="center">
-  <img src="./ADCMs/figure/Fig1.png" width="50%" height="50%">
+  <img src="./ADCMs/figure/Fig1.png" width="80%" height="80%">
  </p>
   <figcaption>
   <strong>Figure 1:</strong> Maps of the BTH region under different gridding systems with the locations of 68 monitoring stations marked by the
